@@ -97,7 +97,7 @@ router.login = function(req, res){
             }
         }
     ],function(err,check){
-        res.send(check);
+        res.header('x-auth',check.token).send(check);
     })
 }
 module.exports = router;
