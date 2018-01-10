@@ -20,4 +20,22 @@ router.newPoll = function(req, res){
     });
 };
 
+router.getAllPolls = function(req, res){
+    Poll.find({}).populate('admin').exec(function(err,polls){
+        if(err){
+            res.status(500).json({
+                'info' : 'Internal server error',
+                'status' : '500'
+            })
+        }else if(!polls){
+            res.status(404).json({
+                'info' : 'Polls not found',
+                'status' : '404'
+            })
+        }else{
+            res.status(200).json(polls);
+        }
+    })
+}
+
 module.exports = router;

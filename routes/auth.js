@@ -87,6 +87,7 @@ router.login = function(req, res){
         },function(check,callback){
             if(check.value == true){
                 var token = jwt.sign({
+                    userId,
                     email,
                     password
                 }, 'secret');
