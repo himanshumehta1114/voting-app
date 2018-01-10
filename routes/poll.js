@@ -33,7 +33,9 @@ router.getAllPolls = function(req, res){
                 'status' : '404'
             })
         }else{
-            res.status(200).json(polls);
+            res.render('index.ejs',{
+                polls
+            });
         }
     })
 };

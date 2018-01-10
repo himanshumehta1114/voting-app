@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Voting App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">Voting-App</a>
+            </div>
+            <form class="navbar-form navbar-right" action="/login" method="post">
+                <div class="nav-form form-group">
+                    <input type="email" placeholder="email" name="email" id="email" class="form-control">
+                </div>
+                <div class="nav-form form-group">
+                    <input type="password" id="password" name="password" placeholder="password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row" style="margin-top : 100px">
+            <div class="col-lg-12 text-center">
+                <h1>All Polls</h1>
+            </div>
+            <% for(var i=0;i<polls.length;i++){ %>
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3" style="background : #F0F0F0;border-radius : 5px;border : 1px solid #C8C8C8">
+                    <a href=<%= '/api/getPoll/'+polls[i].id %> style="text-decoration : none">
+                            <h2 class="text-center"><%=polls[i].subject %></h2>
+                    </a>
+                </div>
+            </div>
+            <%} %>
+        </div>
+    </div>
+
+</body>
+</html>

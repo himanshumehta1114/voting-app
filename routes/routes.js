@@ -3,8 +3,10 @@ const router = express.Router();
 const auth = require('./auth.js');
 const poll = require('./poll.js');
 const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
+router.use(bodyParser.json());
 
-router.use(function(req, res, next){
+router.authenticate = function(req, res, next){
     var token = req.headers['x-auth'];
     if(token){
         jwt.verify(token, 'secret', function(err, decoded){
@@ -24,13 +26,13 @@ router.use(function(req, res, next){
             message : "No token provided"
         })
     }
-})
+};
 
 // router.post('/register', auth.createUser);
 // router.post('/login', auth.login);
-router.post('/newPoll', poll.newPoll);
+router.post('/newPoll', router.authenticate, poll.newPoll);
 router.get('/getAllPolls', poll.getAllPolls);
-router.get('/getPoll/:pollId', poll.getPollById);
-router.post('/updateVotes', poll.updateVotes);
+router.get('/getPoll/:pollId',poll.getPollById);
+router.post('/updateVotes', router.authenticate,poll.updateVotes);
 
 module.exports = router;

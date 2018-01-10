@@ -5,14 +5,20 @@ const mongoose = require('./models/db');
 const bodyParser = require('body-parser');
 const User = require('./models/userSchema');
 const Poll = require('./models/pollSchema');
-
+const poll = require('./routes/poll.js');
 var auth = require('./routes/auth.js');
 var routes = require('./routes/routes.js');
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', routes);
 app.post('/login', auth.login);
 app.post('/register', auth.createUser);
+app.get('/', function(req, res) {
+    poll.getAllPolls(req, res);
+})
+app.set("view engine", "ejs");
+
 // app.post('/register', function(req, res){
 //     var body = {
 //         name : req.body.name,
