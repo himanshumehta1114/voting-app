@@ -30,5 +30,6 @@ router.use(function(req, res, next){
 // router.post('/login', auth.login);
 router.post('/newPoll', poll.newPoll);
 router.get('/getAllPolls', poll.getAllPolls);
+router.get('/getPoll/:pollId', poll.getPollById);
 
 module.exports = router;

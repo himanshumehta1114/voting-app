@@ -36,6 +36,28 @@ router.getAllPolls = function(req, res){
             res.status(200).json(polls);
         }
     })
+};
+
+router.getPollById = function(req, res){
+    var pollId = req.params.pollId;
+
+    Poll.find({
+        '_id' : pollId
+    }).exec(function(err,requestedPoll){
+        if(err){
+            res.status(500).json({
+                'info' : 'internal server error',
+                'status' : 500
+            })
+        }else if(!requestedPoll){
+            res.status(404).json({
+                'info' : 'poll not found',
+                'status' : 404
+            })
+        }else{
+            res.status(200).json(requestedPoll);
+        }
+    })
 }
 
 module.exports = router;
