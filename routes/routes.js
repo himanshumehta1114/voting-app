@@ -31,5 +31,6 @@ router.use(function(req, res, next){
 router.post('/newPoll', poll.newPoll);
 router.get('/getAllPolls', poll.getAllPolls);
 router.get('/getPoll/:pollId', poll.getPollById);
+router.post('/updateVotes', poll.updateVotes);
 
 module.exports = router;

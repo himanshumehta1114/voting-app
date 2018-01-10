@@ -60,4 +60,19 @@ router.getPollById = function(req, res){
     })
 }
 
+router.updateVotes = function(req, res){
+    var pollId = req.body.pollId;
+    var option = 'abc';
+    Poll.findOneAndUpdate({
+        '_id' : pollId,
+        'options.name' : option
+    },{
+        '$inc' : {
+            'options.$.value' : 1
+        }
+    }).exec(function(err, updatedVotes){
+        res.json(updatedVotes);
+    })
+}
+
 module.exports = router;
