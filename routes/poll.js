@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Poll = require('../models/pollSchema');
+const User = require('../models/userSchema');
 
 router.newPoll = function(req, res){
     var poll = new Poll({
@@ -15,10 +16,23 @@ router.newPoll = function(req, res){
         }else if(!savedPoll){
             return res.status(404).json("insertion failed");
         }else{
+            console.log(savedPoll);
             res.status(200).send(savedPoll);
         }
     });
 };
+
+router.dashboard = function(req, res){
+    var name = "";
+    User.findOne({
+        '_id' : req.userId
+    }).exec(function(err,userDetails){
+        name = userDetails.name;
+    });
+    res.render('profile.ejs',{
+        name
+    })
+}
 
 router.getAllPolls = function(req, res){
     Poll.find({}).populate('admin').exec(function(err,polls){

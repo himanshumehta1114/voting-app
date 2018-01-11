@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 
 router.authenticate = function(req, res, next){
-    var token = req.headers['x-auth'];
+    var token = req.headers['x-auth'] || req.token;
     if(token){
         jwt.verify(token, 'secret', function(err, decoded){
             if(err){
@@ -34,5 +34,6 @@ router.post('/newPoll', router.authenticate, poll.newPoll);
 router.get('/getAllPolls', poll.getAllPolls);
 router.get('/getPoll/:pollId',poll.getPollById);
 router.post('/updateVotes', router.authenticate,poll.updateVotes);
+router.get('/newPoll', router.authenticate, poll.dashboard);
 
 module.exports = router;

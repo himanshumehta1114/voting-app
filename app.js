@@ -12,10 +12,27 @@ var routes = require('./routes/routes.js');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', routes);
-app.post('/login', auth.login);
+app.post('/login', auth.login, routes.authenticate, function(req, res){
+    console.log(req.token);
+    User.findOne({
+        '_id' : req.userId
+    }).exec(function(err,userDetails){
+        if(err){
+            res.send('User not found')
+        }else{
+            res.render('profile.ejs', {
+                name : userDetails.name
+            })
+        }
+    })
+});
 app.post('/register', auth.createUser);
 app.get('/', function(req, res) {
     poll.getAllPolls(req, res);
+})
+
+app.get('/newPoll', function(req, res) {
+    poll.newPoll(req, res);
 })
 app.set("view engine", "ejs");
 

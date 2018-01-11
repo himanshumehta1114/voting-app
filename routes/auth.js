@@ -52,7 +52,7 @@ router.createUser = function(req, res){
     });
 }
 
-router.login = function(req, res){
+router.login = function(req, res, next){
     var email = req.body.email;
     var password = req.body.password;
     var userId;
@@ -98,7 +98,9 @@ router.login = function(req, res){
             }
         }
     ],function(err,check){
-        res.header('x-auth',check.token).send(check);
+        // console.log(check.token);
+        req.token = check.token;
+        next();
     })
 }
 module.exports = router;
