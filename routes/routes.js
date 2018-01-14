@@ -87,7 +87,11 @@ module.exports = function(app,passport){
             }else if(!savedPoll){
                 res.json('Nothing to save');
             }else{
-                res.json(savedPoll);
+                res.render('displayPoll',{
+                    data : savedPoll.options,
+                    id : poll._id,
+                    name : poll.subject
+                });
             }
         });
     })
@@ -99,7 +103,6 @@ module.exports = function(app,passport){
             if(err){
                 res.json('Internal error occurred');
             }else{
-                console.log(poll);
                 var optionsList = poll.options;
                 optionsList[req.body.vote].value += 1;
                 poll.options = optionsList;
