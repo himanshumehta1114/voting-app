@@ -28,7 +28,9 @@ module.exports = function(app,passport){
     }));
 
     app.get('/signup', function(req, res){
-        res.render('signup');
+        res.render('signup',{
+            message : req.flash('signupMessage')
+        });
     })
 
     app.post('/signup', passport.authenticate('local-signup', {
@@ -40,9 +42,15 @@ module.exports = function(app,passport){
     app.get('/profile', isLoggedIn, function(req, res){
         console.log(`name is : ${req.user.name}`);
         console.log(`email is : ${req.user.email}`);
-        res.render('profile',{
-            name : req.user.name
-        });
+        console.log(`id is : ${req.user._id}`);
+        Polls.find({
+            'admin' : req.user._id
+        }).exec(function(err,myPolls){
+            res.render('profile',{
+                name : req.user.name,
+                myPolls
+            });
+        })
     });
 
     app.post('/newPoll', isLoggedIn, function(req, res){
