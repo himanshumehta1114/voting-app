@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-3" style="background : #F0F0F0;border-radius : 5px;border : 1px solid #C8C8C8">
                     <a href=<%= '/getPoll/'+polls[i].id %> style="text-decoration : none">
-                            <h2 class="text-center"><%=polls[i].subject %></h2>
+                            <h2 class="text-center"><%=polls[i].subject %>  <span class="badge">By <%=polls[i].admin.name %></span></h2>
                     </a>
                 </div>
             </div>

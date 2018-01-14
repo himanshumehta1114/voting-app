@@ -5,7 +5,7 @@ module.exports = function(app,passport){
         if(req.isAuthenticated()){
             res.redirect('/profile');
         }else{
-            Polls.find({}).exec(function(err, polls){
+            Polls.find({}).populate('admin').exec(function(err, polls){
                 if(err)
                     res.send('internal server error')
                 res.render('index.ejs',{
@@ -92,6 +92,27 @@ module.exports = function(app,passport){
         });
     })
 
+    app.post('/poll/update', function(req, res){
+        Polls.findOne({
+            '_id' : req.body.id
+        }).exec(function(err, poll){
+            if(err){
+                res.json('Internal error occurred');
+            }else{
+                console.log(poll);
+                var optionsList = poll.options;
+                optionsList[req.body.vote].value += 1;
+                poll.options = optionsList;
+                poll.save(function(err){
+                    if(err){
+                        res.json('Unable to update votes');
+                    }else{
+                        res.redirect('/getPoll/' + req.body.id);
+                    }
+                })
+            }
+        })
+    })
 
     app.get('/getPoll/:pollId', function(req, res){
         var pollId = req.params.pollId;
@@ -102,8 +123,14 @@ module.exports = function(app,passport){
                 res.json(err);
             if(!poll)
                 res.json('poll not found');
-            if(poll)
-                res.json(poll);
+            if(poll){
+                res.render('displayPoll',{
+                    data : poll.options,
+                    id : poll._id,
+                    name : poll.subject
+                })
+            }
+                // res.json(poll);
         });
     })
 };
