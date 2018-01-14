@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Voting app|Sign up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 text-center" style="background : #3498DB">
+                <p style="padding-top:50px;color: #fff;font-size: 40px">Welcome </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3 text-center">
+                <h1>Create new account</h1>
+                <form action="/signup" method="post" class="form-horizontal" style="margin-top : 20px">
+                    <div class="form-group">
+                        <label for="name" class="control-label col-lg-2">Name</label>
+                        <div class="col-lg-10">
+                            <input type="text" name="name" id="name" class="form-control" placeholder="enter name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="control-label col-lg-2">Email</label>
+                        <div class="col-lg-10">
+                            <input type="email" name="email" class="form-control" placeholder="enter email here">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="control-label col-lg-2">Password</label>
+                        <div class="col-lg-10">
+                            <input type="password" name="password" class="form-control" placeholder="enter password here">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <input type="submit" value="Sign up" class="btn btn-success form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <div class="well"><a href="/">Already have an account?</a></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

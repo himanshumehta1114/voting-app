@@ -1,39 +1,94 @@
-const express = require('express');
-const router = express.Router();
-const auth = require('./auth.js');
-const poll = require('./poll.js');
-const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
-router.use(bodyParser.json());
+var Polls = require('../models/pollSchema.js');
 
-router.authenticate = function(req, res, next){
-    var token = req.headers['x-auth'] || req.token;
-    if(token){
-        jwt.verify(token, 'secret', function(err, decoded){
-            if(err){
-                return res.status(401).json({
-                    "message" : "Authentication failed"
+module.exports = function(app,passport){
+    app.get('/', function(req, res){
+        if(req.isAuthenticated()){
+            res.redirect('/profile');
+        }else{
+            Polls.find({}).exec(function(err, polls){
+                if(err)
+                    res.send('internal server error')
+                res.render('index.ejs',{
+                    message : req.flash('loginMessage'),
+                    polls
                 })
+            })
+        }
+    });
+
+    app.get('/logout', function(req, res){
+        req.logout();
+        res.redirect('/');
+    })
+
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/profile',
+        failureRedirect : '/',
+        failureFlash : true
+    }));
+
+    app.get('/signup', function(req, res){
+        res.render('signup');
+    })
+
+    app.post('/signup', passport.authenticate('local-signup', {
+        successRedirect : '/profile',
+        failureRedirect : '/signup',
+        failureFlash : true
+    }));
+
+    app.get('/profile', isLoggedIn, function(req, res){
+        console.log(`name is : ${req.user.name}`);
+        console.log(`email is : ${req.user.email}`);
+        res.render('profile',{
+            name : req.user.name
+        });
+    });
+
+    app.post('/newPoll', isLoggedIn, function(req, res){
+        var options = req.body.optionsList.split('\n');
+        var optionsList = [];
+        for(var i=0;i<options.length;i++){
+            optionsList.push({
+                name : options[i],
+                value : 0
+            })
+        }
+        var poll = new Polls({
+            subject : req.body.subject,
+            options : optionsList,
+            admin : req.user._id
+        });
+        poll.save(function(err, savedPoll){
+            if(err){
+                res.json(err);
+            }else if(!savedPoll){
+                res.json('Nothing to save');
             }else{
-                req.userId = decoded.userId;
-                req.email = decoded.email;
-                next();
+                res.json(savedPoll);
             }
         });
-    }else{
-        return res.status(403).send({
-            success : false,
-            message : "No token provided"
-        })
-    }
+    })
+
+
+    app.get('/getPoll/:pollId', function(req, res){
+        var pollId = req.params.pollId;
+        Polls.findOne({
+            '_id' : pollId
+        }).populate('admin').exec(function(err, poll){
+            if(err)
+                res.json(err);
+            if(!poll)
+                res.json('poll not found');
+            if(poll)
+                res.json(poll);
+        });
+    })
 };
 
-// router.post('/register', auth.createUser);
-// router.post('/login', auth.login);
-router.post('/newPoll', router.authenticate, poll.newPoll);
-router.get('/getAllPolls', poll.getAllPolls);
-router.get('/getPoll/:pollId',poll.getPollById);
-router.post('/updateVotes', router.authenticate,poll.updateVotes);
-router.get('/newPoll', router.authenticate, poll.dashboard);
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated())
+        return next();
 
-module.exports = router;
+    res.redirect('/');
+}

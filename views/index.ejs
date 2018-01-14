@@ -21,6 +21,7 @@
                     <input type="password" id="password" name="password" placeholder="password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Sign in</button>
+                <a href="/signup" class="btn btn-danger">Sign up</a>
             </form>
         </div>
     </nav>
@@ -28,12 +29,15 @@
     <div class="container">
         <div class="row" style="margin-top : 100px">
             <div class="col-lg-12 text-center">
+                <% if (message.length > 0) { %>
+                        <div class="alert alert-danger"><%= message %></div>
+                <% } %>
                 <h1>All Polls</h1>
             </div>
             <% for(var i=0;i<polls.length;i++){ %>
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-3" style="background : #F0F0F0;border-radius : 5px;border : 1px solid #C8C8C8">
-                    <a href=<%= '/api/getPoll/'+polls[i].id %> style="text-decoration : none">
+                    <a href=<%= '/getPoll/'+polls[i].id %> style="text-decoration : none">
                             <h2 class="text-center"><%=polls[i].subject %></h2>
                     </a>
                 </div>

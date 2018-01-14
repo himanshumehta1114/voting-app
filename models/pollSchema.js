@@ -8,7 +8,7 @@ var pollSchema = new Schema({
     },
     admin : {
         type : Schema.Types.ObjectId,
-        ref : 'user'
+        ref : 'User'
     },
     options : [{
         name : {
