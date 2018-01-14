@@ -53,6 +53,20 @@ module.exports = function(app,passport){
         })
     });
 
+    app.get('/removePoll/:pollId', isLoggedIn, function(req, res){
+        var pollId = req.params.pollId;
+        Polls.remove({
+            '_id' : pollId,
+            'admin' : req.user._id
+        }).exec(function(err, removedPoll){
+            if(err){
+                res.json(err)
+            }else{
+                res.redirect('/profile');
+            }
+        })
+    })
+
     app.post('/newPoll', isLoggedIn, function(req, res){
         var options = req.body.optionsList.split('\n');
         var optionsList = [];
