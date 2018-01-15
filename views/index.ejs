@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+    .container > div{
+        margin-top : 100px;
+    }
+    @media only screen and (max-width: 768px) {
+        .container > div{
+            margin-top : 150px;
+        }
+    }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -29,7 +39,7 @@
     </nav>
 
     <div class="container">
-        <div class="row" style="margin-top : 100px">
+        <div class="row">
             <div class="col-lg-12 text-center">
                 <% if (message.length > 0) { %>
                         <div class="alert alert-danger"><%= message %></div>
