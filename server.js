@@ -14,6 +14,7 @@ mongoose.connect(db_url).then(() => {
 });
 
 app.use(bodyParser());
+app.use(express.static(__dirname + '/public'));
 app.set('view engine','ejs');
 require('./config/passport.js')(passport);
 

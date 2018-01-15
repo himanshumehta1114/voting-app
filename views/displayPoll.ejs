@@ -7,14 +7,14 @@
     <title>Document</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body style="padding-bottom:140px">
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12 text-center" style="background : #3498DB">
-            <p style="padding-top:50px;color: #fff;font-size: 40px"><%=name %> ?</p>
+            <p style="color: #fff;font-size: 40px"><%=name %> ?</p>
         </div>
     </div>
     <div class="row">
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="col-lg-6 text-center">
-            <div style="margin-top:100px">
+            <div style="margin-top:2px">
                 <div class="col-lg-10">
                     <canvas id="densityChart"></canvas>
                 </div>
@@ -46,7 +46,6 @@
         </div>
     </div>
 </div>
-
     <script type="text/javascript">
     var densityCanvas = document.getElementById("densityChart");
 
@@ -99,5 +98,8 @@
         }
     });
     </script>
+    <footer>
+        <%- include ./partials/footer %>
+    </footer>
 </body>
 </html>
